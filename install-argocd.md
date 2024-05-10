@@ -20,3 +20,16 @@ by default the service will be available only for host machine, to make it avail
 ```bash
 kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 0.0.0.0
 ```
+
+# Enable insecure mode (optional)
+
+```bash
+kubectl edit deployment.apps/argocd-server -n argocd
+```
+
+Add the following lines to the file:
+
+```yaml
+- argocd-server
+- --insecure
+```
