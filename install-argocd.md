@@ -33,3 +33,32 @@ Add the following lines to the file:
 - argocd-server
 - --insecure
 ```
+
+# Generate admin password
+
+invalidate the current password:
+
+```bash
+kubectl patch secret argocd-secret -n argocd -p '{"data": {"admin.password": null, "admin.passwordMtime": null}}'
+```
+
+restart pods:
+
+````bash
+kubectl delete pods -n argocd -l app.kubernetes.io/name=argocd-server
+```
+get the new password:
+
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+````
+
+# Get API token
+
+    ```bash
+
+curl http://172.16.225.146:8080/api/v1/session -d $'{"username":"admin","password":"k1Dr1TUlNw-FmZcm"}' -H "Content-Type: application/json"
+
+```
+
+```
